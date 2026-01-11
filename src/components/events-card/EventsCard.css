@@ -1,0 +1,18 @@
+.events {
+  padding: 1rem;
+  color: black;
+  background-color: azure;
+}
+
+.title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  color: black;
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+}
