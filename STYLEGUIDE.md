@@ -1,11 +1,11 @@
 # Style Guide
 
 ## Colour Palette
-- Midnight Blue — #0B1B3A
-- Sky Blue — #2D9CDB
-- Soft White — #F7F9FC
-- Charcoal — #1F2937
-- Accent Gold — #F2C94C
+- Deep Plum — #3A0F2E
+- Champagne Gold — #E6C17A
+- Soft Ivory — #FAF7F2
+- Charcoal — #2B2B2B
+- Accent Rose — #C97C8B
 
 ## Typography
 Primary Font: system-ui, Arial, sans-serif
