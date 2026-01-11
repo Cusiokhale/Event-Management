@@ -1,7 +1,7 @@
 # Style Guide
 
 ## Colour Palette
-- Deep Plum — #3A0F2E
+- Deep Plum — #5b0643;
 - Champagne Gold — #E6C17A
 - Soft Ivory — #FAF7F2
 - Charcoal — #2B2B2B
