@@ -1,4 +1,5 @@
 import './App.css'
+import EventsCard from "./components/events-card/EventsCard";
 
 function App() {
   return (
@@ -10,6 +11,10 @@ function App() {
 
       <main className="app__main">
         <p>Welcome! Components will be added here.</p>
+      </main>
+      
+      <main>
+        <EventsCard />
       </main>
 
       <footer className="app__footer">
