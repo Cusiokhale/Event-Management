@@ -1,7 +1,7 @@
 .events {
   padding: 1rem;
-  color: black;
-  background-color: azure;
+  color: var(--color-charcoal);
+  background-color:  var(--color-ivory);
 }
 
 .title {
@@ -10,8 +10,8 @@
 }
 
 .card {
-  color: black;
-  border: 1px solid #ccc;
+  color:  var(--color-charcoal);
+  border: 1px solid var(--color-plum);
   padding: 0.75rem;
   margin-bottom: 0.75rem;
   border-radius: 6px;
