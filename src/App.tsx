@@ -1,5 +1,6 @@
 import './App.css'
 import EventsCard from "./components/events-card/EventsCard";
+import Services from "./components/services/Services";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       
       <main>
         <EventsCard />
+        <Services />
       </main>
 
       <footer className="app__footer">
