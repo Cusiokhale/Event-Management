@@ -10,7 +10,7 @@ function App() {
       </header>
 
       <main className="app__main">
-        <p>Welcome! Components will be added here.</p>
+        <p>Turning Moments into Memories!</p>
       </main>
       
       <main>
