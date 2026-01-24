@@ -25,7 +25,7 @@ export default function EventsCard(): JSX.Element {
           <p>Date: {event.date}</p>
           <p>Location: {event.location}</p>
         </div>
-      ))}
+      ))}c
     </section>
   );
 }
