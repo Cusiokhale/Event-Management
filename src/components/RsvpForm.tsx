@@ -29,7 +29,6 @@ export default function RsvpForm({ events, onAdd }: Props) {
     if (!guestEmail.trim()) return setError("Email is required.");
     if (!isEmailValid(guestEmail))
       return setError("Please enter a valid email.");
-    // if (attendees < 1 || attendees > 10) return setError("Attendees must be 1 to 10.");
 
     const selected = events.find((ev) => ev.id === eventId);
     const eventTitle = selected ? selected.title : "Unknown event";
@@ -126,19 +125,7 @@ export default function RsvpForm({ events, onAdd }: Props) {
         </label>
       </div>
 
-      {/* <div style={{ marginBottom: 12 }}>
-        <label>
-          Number of Attendees
-          <input
-            type="number"
-            min={1}
-            max={10}
-            value={attendees}
-            onChange={(e) => setAttendees(Number(e.target.value))}
-            style={{ display: "block", width: "100%", padding: 8, marginTop: 6 }}
-          />
-        </label>
-      </div> */}
+      
 
       <div style={{ marginBottom: 12 }}>
         <label>

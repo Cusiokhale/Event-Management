@@ -8,7 +8,7 @@ import type { RsvpItem } from './types/rsvp';
 function App() {
   const [rsvps, setRsvps] = useState<RsvpItem[]>([]);
 
-  // For now, sample events. Later, we can replace with real events from your app state (T3).
+  
   const events = useMemo(
     () => [
       { id: "ev-1", title: "Tech Meetup" },
