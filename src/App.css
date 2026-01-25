@@ -69,3 +69,19 @@ a:hover,
 a:focus-visible {
   text-decoration: underline;
 }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  padding-left: 0;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
