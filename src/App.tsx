@@ -1,30 +1,40 @@
-import './App.css'
-import EventsCard from "./components/events-card/EventsCard";
-import Services from "./components/services/Services";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
 
 function App() {
   return (
-    <div className="app">
-      <header className="app__header">
-        <h1>Event Management Website</h1>
-        <p>Conferences • Weddings • School Events</p>
-      </header>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <main>
+            <h1>Event Management Website</h1>
+            <p>Turning Moments into Memories!</p>
+          </main>
+        }
+      />
 
-      <main className="app__main">
-        <p>Turning Moments into Memories!</p>
-      </main>
-      
-      <main>
-        <EventsCard />
-        <Services />
-      </main>
+      <Route
+        path="/events"
+        element={
+          <main>
+            <h2>Events Page</h2>
+            <p>Our event planning services will be listed here.</p>
+          </main>
+        }
+      />
 
-      <footer className="app__footer">
-        <p>Team: Ace Stack</p>
-        <p>Members: Nkechi Echeta, Cordelia Usiokhale</p>
-      </footer>
-    </div>
-  )
+      <Route
+        path="/services"
+        element={
+          <main>
+            <h2>Services Page</h2>
+            <p>Our services will be listed here.</p>
+          </main>
+        }
+      />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
