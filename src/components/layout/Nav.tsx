@@ -17,6 +17,9 @@ function Nav() {
         <li>
           <NavLink to="/services">Services</NavLink>
         </li>
+        <li>
+          <NavLink to="/rsvp">RSVP</NavLink>
+        </li>
       </ul>
     </nav>
   );
