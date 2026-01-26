@@ -1,64 +1,83 @@
-type RsvpFormProps = {
+import type { RsvpItem, RsvpStatus } from "../../types/rsvp";
+
+type Props = {
   guestName: string;
-  setGuestName: (value: string) => void;
+  setGuestName: (v: string) => void;
 
   email: string;
-  setEmail: (value: string) => void;
+  setEmail: (v: string) => void;
 
-  status: string;
-  setStatus: (value: string) => void;
+  status: RsvpStatus;
+  setStatus: (v: RsvpStatus) => void;
 
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onAdd: (item: RsvpItem) => void;
 };
 
-function RsvpForm({
+export default function RsvpForm({
   guestName,
   setGuestName,
   email,
   setEmail,
   status,
   setStatus,
-  onSubmit,
-}: RsvpFormProps) {
+  onAdd,
+}: Props) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const name = guestName.trim();
+    const mail = email.trim();
+
+    if (!name || !mail) return;
+
+    const item: RsvpItem = {
+      id: crypto.randomUUID(),
+      guestName: name,
+      email: mail.toLowerCase(),
+      status,
+      createdAt: new Date().toISOString(),
+    };
+
+    onAdd(item);
+
+    // reset
+    setGuestName("");
+    setEmail("");
+    setStatus("Going");
+  }
+
   return (
-    <form className="form" onSubmit={onSubmit}>
-      <div className="form_group">
-        <label className="form_label" htmlFor="guestName">
-          Guest name
-        </label>
+    <form className="card form" onSubmit={handleSubmit}>
+      <h3 className="card__title">RSVP Signup</h3>
+
+      <div className="form__group">
+        <label className="form__label">Guest name</label>
         <input
-          id="guestName"
-          className="form_input"
+          className="form__input"
           type="text"
+          placeholder="e.g., Tehila Akpabio"
           value={guestName}
           onChange={(e) => setGuestName(e.target.value)}
-          placeholder="e.g., Tehila Akpabio"
         />
       </div>
 
-      <div className="form_group">
-        <label className="form_label" htmlFor="guestEmail">
-          Guest email
-        </label>
+      <div className="form__group">
+        <label className="form__label">Guest email</label>
         <input
-          id="guestEmail"
-          className="form_input"
+          className="form__input"
           type="email"
+          placeholder="e.g., tehila@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="e.g., tehila@example.com"
         />
       </div>
 
-      <div className="form_group">
-        <label className="form_label" htmlFor="rsvpStatus">
-          RSVP status
-        </label>
+      <div className="form__group">
+        <label className="form__label">RSVP status</label>
         <select
-          id="rsvpStatus"
-          className="form_input"
+          className="form__input"
           value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          onChange={(e) => setStatus(e.target.value as RsvpStatus)}
         >
           <option value="Going">Going</option>
           <option value="Maybe">Maybe</option>
@@ -72,5 +91,3 @@ function RsvpForm({
     </form>
   );
 }
-
-export default RsvpForm;c
