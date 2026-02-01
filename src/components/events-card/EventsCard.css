@@ -1,0 +1,18 @@
+.events {
+  padding: 1rem;
+  color: var(--color-charcoal);
+  background-color:  var(--color-ivory);
+}
+
+.title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  color:  var(--color-charcoal);
+  border: 1px solid var(--color-plum);
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+}

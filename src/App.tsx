@@ -1,23 +1,52 @@
-import './App.css'
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import { useState } from "react";
+import Layout from "./components/layout/Layout";
+import EventsPage from "./components/pages/EventsPage";
+import ServicesPage from "./components/pages/ServicesPage";
+import RsvpPage from "./components/pages/RsvpPage";
 
 function App() {
+  const [sharedMessage, setSharedMessage] = useState("Hello from shared state");
+
   return (
-    <div className="app">
-      <header className="app__header">
-        <h1>Event Management Website</h1>
-        <p>Conferences • Weddings • School Events</p>
-      </header>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<p>Shared message: {sharedMessage}</p>} />
 
-      <main className="app__main">
-        {/* High-Level Components (I.1) will be rendered here */}
-      </main>
+        <Route
+          path="events"
+          element={
+            <EventsPage
+              sharedMessage={sharedMessage}
+              setSharedMessage={setSharedMessage}
+            />
+          }
+        />
 
-      <footer className="app__footer">
-        <p>Team: Ace Stack</p>
-        <p>Members: Nkechi Echeta, Cordelia Usiokhale</p>
-      </footer>
-    </div>
-  )
+        <Route
+          path="services"
+          element={
+            <ServicesPage
+              sharedMessage={sharedMessage}
+              setSharedMessage={setSharedMessage}
+            />
+          }
+        />
+
+        <Route
+          path="rsvp"
+          element={
+            <RsvpPage
+              sharedMessage={sharedMessage}
+              setSharedMessage={setSharedMessage}
+            />
+          }
+        />
+
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
