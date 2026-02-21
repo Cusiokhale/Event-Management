@@ -18,7 +18,7 @@ function ServicesPage() {
   ]);
 
   function addService(name: string, category: string) {
-    // ✅ validate first
+    // validate first
     const trimmedName = name.trim();
     const trimmedCategory = category.trim();
 
@@ -26,7 +26,7 @@ function ServicesPage() {
       return;
     }
 
-    // ✅ act after validation
+    // act after validation
     const newService: ServiceItem = {
       id: crypto.randomUUID(),
       name: trimmedName,

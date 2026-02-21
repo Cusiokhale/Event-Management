@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import RsvpForm from "../rsvp/RsvpForm";
-import type { RsvpItem } from "../types/rsvp";
+import type { RsvpItem } from "../../types/rsvp";
 import { useRsvpFormFields } from "../../hooks/useRsvpFormFields";
 import { buildRsvpItem, isRsvpInputValid } from "../services/rsvpService";
 import { useSharedMessage } from "../../hooks/useSharedMessage";

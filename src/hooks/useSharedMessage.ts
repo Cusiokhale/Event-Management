@@ -1,6 +1,6 @@
-// src/hooks/useSharedMessage.ts
 import { useEffect, useState } from "react";
 import { sharedMessageService } from "../components/services/sharedMessageService";
+
 export function useSharedMessage() {
   const [sharedMessage, setSharedMessageState] = useState<string>(() =>
     sharedMessageService.get()

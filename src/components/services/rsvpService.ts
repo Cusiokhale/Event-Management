@@ -20,9 +20,10 @@ export function buildRsvpItem(input: BuildRsvpInput): RsvpItem {
 
   // build after validation
   return {
-    id: crypto.randomUUID(),
-    guestName: input.guestName.trim(),
-    email: input.email.trim(),
-    status: input.status,
-  };
+  id: crypto.randomUUID(),
+  guestName: input.guestName.trim(),
+  email: input.email.trim(),
+  status: input.status,
+  createdAt: new Date().toISOString(),
+};
 }
