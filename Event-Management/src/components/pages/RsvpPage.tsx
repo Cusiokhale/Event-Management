@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import RsvpForm from "../rsvp/RsvpForm";
-import type { RsvpItem } from "../../types/rsvp";
-import { useRsvpFormFields } from "../../hooks/useRsvpFormFields";
+import type { RsvpItem, RsvpStatus } from "../../types/rsvp";
 
 type RsvpPageProps = {
   sharedMessage: string;
@@ -9,16 +8,10 @@ type RsvpPageProps = {
 };
 
 function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
-  // I.2 controlled state (now via hook)
-  const {
-    guestName,
-    setGuestName,
-    email,
-    setEmail,
-    status,
-    setStatus,
-    resetForm,
-  } = useRsvpFormFields();
+  // I.2 controlled state
+  const [guestName, setGuestName] = useState("");
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<RsvpStatus>("Going");
 
   // I.3 list state
   const [rsvps, setRsvps] = useState<RsvpItem[]>([]);
@@ -29,9 +22,7 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
     const mail = email.trim();
     if (!name && !mail) return;
 
-    setSharedMessage(
-      `Typing RSVP: ${name || "..."} (${status}) — ${mail || "..."}`
-    );
+    setSharedMessage(`Typing RSVP: ${name || "..."} (${status}) — ${mail || "..."}`);
   }, [guestName, email, status, setSharedMessage]);
 
   function addRsvp(item: RsvpItem) {
@@ -42,24 +33,6 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
   function removeRsvp(id: string) {
     setRsvps((prev) => prev.filter((r) => r.id !== id)); // immediate UI update
     setSharedMessage("RSVP removed");
-  }
-
-  function handleAddFromForm() {
-    const name = guestName.trim();
-    const mail = email.trim();
-
-    if (!name || !mail) return;
-
-    const item: RsvpItem = {
-      id: crypto.randomUUID(),
-      guestName: name,
-      email: mail.toLowerCase(),
-      status,
-      createdAt: new Date().toISOString(),
-    };
-
-    addRsvp(item);
-    resetForm();
   }
 
   return (
@@ -78,8 +51,7 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
           setEmail={setEmail}
           status={status}
           setStatus={setStatus}
-          resetForm={resetForm}
-          onAdd={handleAddFromForm}
+          onAdd={addRsvp}
         />
 
         <section className="card">

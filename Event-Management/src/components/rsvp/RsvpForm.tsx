@@ -1,4 +1,4 @@
-import type { RsvpStatus } from "../../types/rsvp";
+import type { RsvpItem, RsvpStatus } from "../../types/rsvp";
 
 type Props = {
   guestName: string;
@@ -10,9 +10,7 @@ type Props = {
   status: RsvpStatus;
   setStatus: (v: RsvpStatus) => void;
 
-  resetForm: () => void;
-
-  onAdd: () => void;
+  onAdd: (item: RsvpItem) => void;
 };
 
 export default function RsvpForm({
@@ -22,7 +20,6 @@ export default function RsvpForm({
   setEmail,
   status,
   setStatus,
-  resetForm,
   onAdd,
 }: Props) {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -31,11 +28,22 @@ export default function RsvpForm({
     const name = guestName.trim();
     const mail = email.trim();
 
-    // Basic UI validation (presentation concern)
     if (!name || !mail) return;
 
-    onAdd();
-    resetForm();
+    const item: RsvpItem = {
+      id: crypto.randomUUID(),
+      guestName: name,
+      email: mail.toLowerCase(),
+      status,
+      createdAt: new Date().toISOString(),
+    };
+
+    onAdd(item);
+
+    // reset
+    setGuestName("");
+    setEmail("");
+    setStatus("Going");
   }
 
   return (
