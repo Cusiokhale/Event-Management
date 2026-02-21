@@ -3,16 +3,28 @@ import type { RsvpStatus } from "../types/rsvp";
 
 /**
  * useRsvpFormFields
- * 
- * This hook holds local form state for RSVP form inputs:
- * - guestName (string)
- * - email (string)
- * - status ("Going" | "Maybe" | "Not going")
- * 
- * It returns:
- * - values: guestName, email, status
- * - setters: setGuestName, setEmail, setStatus
- * - resetForm(): resets all values to default
+ *
+ * Purpose:
+ * This hook manages controlled form state for the RSVP form.
+ * It centralizes presentation logic so it can be reused across components.
+ *
+ * Internal State:
+ * - guestName: string
+ * - email: string
+ * - status: RsvpStatus ("Going" | "Maybe" | "Not going")
+ *
+ * Returned Values:
+ * - guestName: Current guest name input value
+ * - setGuestName: Updates guest name input
+ * - email: Current email input value
+ * - setEmail: Updates email input
+ * - status: Current RSVP selection
+ * - setStatus: Updates RSVP selection
+ * - resetForm(): Resets all fields to default values
+ *
+ * Note:
+ * This hook contains ONLY presentation logic.
+ * No business rules or data access logic belong here.
  */
 export function useRsvpFormFields() {
   const [guestName, setGuestName] = useState("");
