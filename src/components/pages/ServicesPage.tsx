@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ServiceForm from "../services/ServiceForm";
-import { useSharedMessage } from "../../contexts/sharedMessageContext";
+import { useSharedMessage } from "../../hooks/useSharedMessage";
 
 type ServiceItem = {
   id: string;
@@ -17,18 +17,26 @@ function ServicesPage() {
     { id: crypto.randomUUID(), name: "Corporate Conference", category: "Business" },
   ]);
 
-  // called by the child form component via props
   function addService(name: string, category: string) {
+    // ✅ validate first
+    const trimmedName = name.trim();
+    const trimmedCategory = category.trim();
+
+    if (trimmedName.length === 0 || trimmedCategory.length === 0) {
+      return;
+    }
+
+    // ✅ act after validation
     const newService: ServiceItem = {
       id: crypto.randomUUID(),
-      name,
-      category,
+      name: trimmedName,
+      category: trimmedCategory,
     };
 
     setServices((prev) => [newService, ...prev]);
 
     // proves shared state updates across pages
-    setSharedMessage(`Last added service: ${name}`);
+    setSharedMessage(`Last added service: ${trimmedName}`);
   }
 
   function handleRemoveService(id: string) {

@@ -4,7 +4,7 @@ import Layout from "./components/layout/Layout";
 import EventsPage from "./components/pages/EventsPage";
 import ServicesPage from "./components/pages/ServicesPage";
 import RsvpPage from "./components/pages/RsvpPage";
-import { useSharedMessage } from "./contexts/sharedMessageContext";
+import { useSharedMessage } from "./hooks/useSharedMessage";
 
 function App() {
   const { sharedMessage } = useSharedMessage();

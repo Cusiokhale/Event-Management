@@ -1,4 +1,4 @@
-import { useSharedMessage } from "../../contexts/sharedMessageContext";
+import { useSharedMessage } from "../../hooks/useSharedMessage";
 
 function EventsPage() {
   const { sharedMessage, setSharedMessage } = useSharedMessage();
