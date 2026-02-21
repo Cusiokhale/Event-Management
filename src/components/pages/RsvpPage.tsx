@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import RsvpForm from "../rsvp/RsvpForm";
-import type { RsvpItem, RsvpStatus } from "../../types/rsvp";
+import type { RsvpItem } from "../../types/rsvp";
+import { useRsvpFormFields } from "../../hooks/useRsvpFormFields";
 
 type RsvpPageProps = {
   sharedMessage: string;
@@ -9,9 +10,14 @@ type RsvpPageProps = {
 
 function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
   // I.2 controlled state
-  const [guestName, setGuestName] = useState("");
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<RsvpStatus>("Going");
+  const {
+  guestName,
+  setGuestName,
+  email,
+  setEmail,
+  status,
+  setStatus,
+} = useRsvpFormFields();
 
   // I.3 list state
   const [rsvps, setRsvps] = useState<RsvpItem[]>([]);
