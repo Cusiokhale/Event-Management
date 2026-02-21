@@ -1,9 +1,8 @@
-type EventsPageProps = {
-  sharedMessage: string;
-  setSharedMessage: (newMessage: string) => void;
-};
+import { useSharedMessage } from "../../contexts/sharedMessageContext";
 
-function EventsPage({ sharedMessage, setSharedMessage }: EventsPageProps) {
+function EventsPage() {
+  const { sharedMessage, setSharedMessage } = useSharedMessage();
+
   return (
     <>
       <h2>Events Page</h2>
