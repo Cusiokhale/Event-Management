@@ -1,0 +1,183 @@
+:root {
+  --color-plum: #5b0643;
+  --color-gold: #E6C17A;
+  --color-ivory: #FAF7F2;
+  --color-charcoal: #2B2B2B;
+  --color-rose: #C97C8B;
+
+  --font-primary: system-ui, Arial, sans-serif;
+
+  --text-body: 16px;
+  --text-section: 20px;
+  --text-heading: 32px;
+}
+
+.app {
+  min-height: 100vh;
+  font-family: var(--font-primary);
+  font-size: var(--text-body);
+  color: var(--color-charcoal);
+  background: var(--color-ivory);
+  display: flex;
+  flex-direction: column;
+}
+
+.app__header {
+  background: var(--color-plum);
+  color: var(--color-ivory);
+  padding: 24px 16px;
+  border-bottom: 4px solid var(--color-gold);
+}
+
+.app__header h1 {
+  margin: 0 0 8px;
+  font-size: var(--text-heading);
+  line-height: 1.2;
+}
+
+.app__header p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.app__main {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  flex: 1;
+  text-align: center;
+}
+
+.app__footer {
+  background: var(--color-plum);
+  color: var(--color-ivory);
+  padding: 16px;
+  border-top: 3px solid var(--color-gold);
+}
+
+.app__footer p {
+  margin: 4px 0;
+}
+
+a {
+  color: var(--color-rose);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  padding-left: 0;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Page layout */
+.page {
+  padding: 2rem 1rem;
+}
+
+.page__container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.page__title {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.page__shared {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.muted {
+  opacity: 0.8;
+}
+
+/* Card sections */
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.card__title {
+  margin: 0 0 1rem;
+}
+
+/* Form */
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.form__group {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.form__label {
+  font-weight: 600;
+}
+
+.form__input {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.btn--danger {
+  opacity: 0.95;
+}
+
+/* List */
+.list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.list__text {
+  display: inline-block;
+}
