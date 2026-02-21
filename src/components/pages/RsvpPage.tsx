@@ -9,15 +9,16 @@ type RsvpPageProps = {
 };
 
 function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
-  // I.2 controlled state
+  // I.2 controlled state (now via hook)
   const {
-  guestName,
-  setGuestName,
-  email,
-  setEmail,
-  status,
-  setStatus,
-} = useRsvpFormFields();
+    guestName,
+    setGuestName,
+    email,
+    setEmail,
+    status,
+    setStatus,
+    resetForm,
+  } = useRsvpFormFields();
 
   // I.3 list state
   const [rsvps, setRsvps] = useState<RsvpItem[]>([]);
@@ -28,7 +29,9 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
     const mail = email.trim();
     if (!name && !mail) return;
 
-    setSharedMessage(`Typing RSVP: ${name || "..."} (${status}) — ${mail || "..."}`);
+    setSharedMessage(
+      `Typing RSVP: ${name || "..."} (${status}) — ${mail || "..."}`
+    );
   }, [guestName, email, status, setSharedMessage]);
 
   function addRsvp(item: RsvpItem) {
@@ -39,6 +42,24 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
   function removeRsvp(id: string) {
     setRsvps((prev) => prev.filter((r) => r.id !== id)); // immediate UI update
     setSharedMessage("RSVP removed");
+  }
+
+  function handleAddFromForm() {
+    const name = guestName.trim();
+    const mail = email.trim();
+
+    if (!name || !mail) return;
+
+    const item: RsvpItem = {
+      id: crypto.randomUUID(),
+      guestName: name,
+      email: mail.toLowerCase(),
+      status,
+      createdAt: new Date().toISOString(),
+    };
+
+    addRsvp(item);
+    resetForm();
   }
 
   return (
@@ -57,7 +78,8 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
           setEmail={setEmail}
           status={status}
           setStatus={setStatus}
-          onAdd={addRsvp}
+          resetForm={resetForm}
+          onAdd={handleAddFromForm}
         />
 
         <section className="card">
