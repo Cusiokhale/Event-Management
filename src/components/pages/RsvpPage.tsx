@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import RsvpForm from "../rsvp/RsvpForm";
 import type { RsvpItem } from "../../types/rsvp";
 import { useRsvpFormFields } from "../../hooks/useRsvpFormFields";
+import { buildRsvpItem, isRsvpInputValid } from "../../services/rsvpService";
+import { useSharedMessage } from "../../contexts/sharedMessageContext";
 
-type RsvpPageProps = {
-  sharedMessage: string;
-  setSharedMessage: (newMessage: string) => void;
-};
+function RsvpPage() {
+  const { sharedMessage, setSharedMessage } = useSharedMessage();
 
-function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
   // I.2 controlled state (now via hook)
   const {
     guestName,
@@ -45,18 +44,11 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
   }
 
   function handleAddFromForm() {
-    const name = guestName.trim();
-    const mail = email.trim();
+    // use service validation (business logic)
+    if (!isRsvpInputValid(guestName, email)) return;
 
-    if (!name || !mail) return;
-
-    const item: RsvpItem = {
-      id: crypto.randomUUID(),
-      guestName: name,
-      email: mail.toLowerCase(),
-      status,
-      createdAt: new Date().toISOString(),
-    };
+    // use service builder (business logic)
+    const item = buildRsvpItem({ guestName, email, status });
 
     addRsvp(item);
     resetForm();
