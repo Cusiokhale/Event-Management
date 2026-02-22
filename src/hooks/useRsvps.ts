@@ -1,5 +1,5 @@
-import type { RsvpItem, RsvpStatus } from "../../types/rsvp";
-import { rsvpRepository } from "../../repositories/rsvpRepository";
+import type { RsvpItem, RsvpStatus } from "../types/rsvp";
+import { rsvpRepository } from "../repositories/rsvpRepository";
 
 type BuildRsvpInput = {
   guestName: string;
@@ -11,9 +11,7 @@ export function isRsvpInputValid(
   guestName: string,
   email: string
 ): boolean {
-  const nameOk = guestName.trim().length > 0;
-  const emailOk = email.trim().length > 0;
-  return nameOk && emailOk;
+  return guestName.trim().length > 0 && email.trim().length > 0;
 }
 
 export function buildRsvpItem(input: BuildRsvpInput): RsvpItem {
@@ -31,8 +29,7 @@ export function buildRsvpItem(input: BuildRsvpInput): RsvpItem {
 }
 
 /**
- * I.3: Service now integrates repository
- * Component → Hook → Service → Repository
+ * I.3 Service Layer (Repository Integration)
  */
 export const rsvpService = {
   getAll(): RsvpItem[] {
@@ -44,7 +41,6 @@ export const rsvpService = {
       return null;
     }
 
-    // repository handles persistence
     return rsvpRepository.create(
       input.guestName.trim(),
       input.email.trim(),
