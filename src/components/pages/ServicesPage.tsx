@@ -1,46 +1,46 @@
 import { useState } from "react";
 import ServiceForm from "../services/ServiceForm";
 import { useSharedMessage } from "../../hooks/useSharedMessage";
-
-type ServiceItem = {
-  id: string;
-  name: string;
-  category: string;
-};
+import { serviceRepository } from "../../repositories/serviceRepository";
+import type { ServiceItem } from "../../types/service";
 
 function ServicesPage() {
   const { sharedMessage, setSharedMessage } = useSharedMessage();
 
-  // List state stays in the page (page "owns" the data)
-  const [services, setServices] = useState<ServiceItem[]>([
-    { id: crypto.randomUUID(), name: "Wedding Planning", category: "Events" },
-    { id: crypto.randomUUID(), name: "Corporate Conference", category: "Business" },
-  ]);
+  // Initialize from repository (external resource simulation)
+  const [services, setServices] = useState<ServiceItem[]>(() =>
+    serviceRepository.getAll()
+  );
 
   function addService(name: string, category: string) {
-    // validate first
+    // Validate first (as you prefer)
     const trimmedName = name.trim();
     const trimmedCategory = category.trim();
 
     if (trimmedName.length === 0 || trimmedCategory.length === 0) {
+      setSharedMessage("Please enter both service name and category.");
       return;
     }
 
-    // act after validation
-    const newService: ServiceItem = {
-      id: crypto.randomUUID(),
-      name: trimmedName,
-      category: trimmedCategory,
-    };
+    // Act after validation (via repository)
+    const newService = serviceRepository.create(
+      trimmedName,
+      trimmedCategory
+    );
 
-    setServices((prev) => [newService, ...prev]);
+    // Refresh UI from repository
+    setServices(serviceRepository.getAll());
 
-    // proves shared state updates across pages
-    setSharedMessage(`Last added service: ${trimmedName}`);
+    setSharedMessage(`Last added service: ${newService.name}`);
   }
 
   function handleRemoveService(id: string) {
-    setServices((prev) => prev.filter((s) => s.id !== id));
+    serviceRepository.delete(id);
+
+    // Refresh UI from repository
+    setServices(serviceRepository.getAll());
+
+    setSharedMessage("Service removed.");
   }
 
   return (
