@@ -1,6 +1,6 @@
 # Architectural Layout — Services Resource (N.E.)
 
-This document explains the hook service repository architecture used for the Services resource.
+This document explains the hook – service – repository architecture used for the **Services** resource.
 
 # Directory Structure (My Contribution)
 
@@ -33,7 +33,7 @@ Keeping storage logic here ensures that UI components never directly manipulate 
 If a real backend API is introduced later, only the repository needs to change.
 
 ## 3. Where is it used?
-It is used by serviceService, which calls repository methods after validation.
+It is used by `serviceService`, which calls repository methods after validation.
 
 # 2. Service — serviceService
 
