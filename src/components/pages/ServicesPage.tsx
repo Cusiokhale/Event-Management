@@ -1,19 +1,22 @@
-import { useState } from "react";
 import ServiceForm from "../services/ServiceForm";
 import { useSharedMessage } from "../../hooks/useSharedMessage";
-import { serviceRepository } from "../../repositories/serviceRepository";
-import type { ServiceItem } from "../../types/service";
+import { useServices } from "../../hooks/useServices";
 
 function ServicesPage() {
   const { sharedMessage, setSharedMessage } = useSharedMessage();
 
-  // Initialize from repository (external resource simulation)
-  const [services, setServices] = useState<ServiceItem[]>(() =>
-    serviceRepository.getAll()
-  );
+  /**
+   * I.3 Architecture Use (Hook → Service → Repository)
+   * - This component uses the custom hook `useServices()`.
+   * - The hook calls `serviceService` methods (validation + business rules).
+   * - The service calls `serviceRepository` CRUD methods (data access).
+   * Why: Keeps UI focused on rendering, centralizes validation/business logic,
+   * and prepares the app for backend integration in later modules.
+   */
+  const { services, addService, removeService } = useServices();
 
-  function addService(name: string, category: string) {
-    // Validate first (as you prefer)
+  function handleAddService(name: string, category: string) {
+    // Validate first (your preference)
     const trimmedName = name.trim();
     const trimmedCategory = category.trim();
 
@@ -22,24 +25,13 @@ function ServicesPage() {
       return;
     }
 
-    // Act after validation (via repository)
-    const newService = serviceRepository.create(
-      trimmedName,
-      trimmedCategory
-    );
-
-    // Refresh UI from repository
-    setServices(serviceRepository.getAll());
-
-    setSharedMessage(`Last added service: ${newService.name}`);
+    // Act after validation (through hook → service → repository)
+    addService(trimmedName, trimmedCategory);
+    setSharedMessage(`Last added service: ${trimmedName}`);
   }
 
   function handleRemoveService(id: string) {
-    serviceRepository.delete(id);
-
-    // Refresh UI from repository
-    setServices(serviceRepository.getAll());
-
+    removeService(id);
     setSharedMessage("Service removed.");
   }
 
@@ -54,7 +46,7 @@ function ServicesPage() {
 
         <section className="card">
           <h3 className="card__title">Add a Service</h3>
-          <ServiceForm onAddService={addService} />
+          <ServiceForm onAddService={handleAddService} />
         </section>
 
         <section className="card">
