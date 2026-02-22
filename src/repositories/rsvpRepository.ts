@@ -1,21 +1,7 @@
 import type { RsvpItem, RsvpStatus } from "../types/rsvp";
+import { rsvpTestData } from "../data/rsvpTestData";
 
-let rsvps: RsvpItem[] = [
-  {
-    id: crypto.randomUUID(),
-    guestName: "Sarah Johnson",
-    email: "sarah@example.com",
-    status: "Going",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: crypto.randomUUID(),
-    guestName: "Michael Brown",
-    email: "michael@example.com",
-    status: "Maybe",
-    createdAt: new Date().toISOString(),
-  },
-];
+let rsvps: RsvpItem[] = [...rsvpTestData];
 
 export const rsvpRepository = {
   // READ (all)
