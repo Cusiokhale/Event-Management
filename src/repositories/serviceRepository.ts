@@ -1,29 +1,21 @@
 import type { ServiceItem } from "../types/service";
+import { serviceTestData } from "../data/serviceTestData";
 
-let services: ServiceItem[] = [
-  {
-    id: crypto.randomUUID(),
-    name: "Wedding Planning",
-    category: "Events",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: crypto.randomUUID(),
-    name: "Corporate Conference",
-    category: "Business",
-    createdAt: new Date().toISOString(),
-  },
-];
+// Initialize repository data from external test data source
+let services: ServiceItem[] = [...serviceTestData];
 
 export const serviceRepository = {
+  // READ (all)
   getAll(): ServiceItem[] {
     return [...services];
   },
 
+  // READ (one)
   getById(id: string): ServiceItem | undefined {
     return services.find((s) => s.id === id);
   },
 
+  // CREATE
   create(name: string, category: string): ServiceItem {
     const newService: ServiceItem = {
       id: crypto.randomUUID(),
@@ -36,7 +28,11 @@ export const serviceRepository = {
     return newService;
   },
 
-  update(id: string, updated: Partial<ServiceItem>): ServiceItem | undefined {
+  // UPDATE
+  update(
+    id: string,
+    updated: Partial<ServiceItem>
+  ): ServiceItem | undefined {
     services = services.map((s) =>
       s.id === id ? { ...s, ...updated } : s
     );
@@ -44,6 +40,7 @@ export const serviceRepository = {
     return services.find((s) => s.id === id);
   },
 
+  // DELETE
   delete(id: string): void {
     services = services.filter((s) => s.id !== id);
   },
