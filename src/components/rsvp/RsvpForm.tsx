@@ -1,4 +1,5 @@
 import type { RsvpStatus } from "../../types/rsvp";
+import { isRsvpInputValid } from "../../services/rsvpService";
 
 type Props = {
   guestName: string;
@@ -28,11 +29,8 @@ export default function RsvpForm({
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const name = guestName.trim();
-    const mail = email.trim();
-
-    // Basic UI validation (presentation concern)
-    if (!name || !mail) return;
+    // Service validation (business logic)
+    if (!isRsvpInputValid(guestName, email)) return;
 
     onAdd();
     resetForm();
