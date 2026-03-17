@@ -1,0 +1,8 @@
+{
+  "name": "event-management-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend"
+  ]
+}
