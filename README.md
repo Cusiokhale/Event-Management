@@ -66,3 +66,4 @@ This structure separates:
 - Data access (repositories)
 
 This design improves maintainability and makes backend integration easier in future modules.
+
