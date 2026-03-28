@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
 import RsvpForm from "../rsvp/RsvpForm";
-import type { RsvpItem, RsvpStatus } from "../../types/rsvp";
+import type { RsvpItem } from "../../types/rsvp";
+import { useRsvpFormFields } from "../../hooks/useRsvpFormFields";
+import { isRsvpInputValid } from "../services/rsvpService";
+import { useSharedMessage } from "../../hooks/useSharedMessage";
+import { rsvpRepository } from "../../repositories/rsvpRepository";
 
-type RsvpPageProps = {
-  sharedMessage: string;
-  setSharedMessage: (newMessage: string) => void;
-};
+function RsvpPage() {
+  const { sharedMessage, setSharedMessage } = useSharedMessage();
 
-function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
-  // I.2 controlled state
-  const [guestName, setGuestName] = useState("");
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<RsvpStatus>("Going");
+  const {
+    guestName,
+    setGuestName,
+    email,
+    setEmail,
+    status,
+    setStatus,
+    resetForm,
+  } = useRsvpFormFields();
 
-  // I.3 list state
-  const [rsvps, setRsvps] = useState<RsvpItem[]>([]);
+  // Initialize list from repository test data
+  const [rsvps, setRsvps] = useState<RsvpItem[]>(() => rsvpRepository.getAll());
 
-  // Keep your shared message “live” while typing (I.2 proof)
   useEffect(() => {
     const name = guestName.trim();
     const mail = email.trim();
@@ -25,13 +30,32 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
     setSharedMessage(`Typing RSVP: ${name || "..."} (${status}) — ${mail || "..."}`);
   }, [guestName, email, status, setSharedMessage]);
 
-  function addRsvp(item: RsvpItem) {
-    setRsvps((prev) => [item, ...prev]); // immediate UI update
-    setSharedMessage(`Last RSVP added: ${item.guestName} (${item.status})`);
+  function handleAddFromForm() {
+    // validate first
+    if (!isRsvpInputValid(guestName, email)) {
+      setSharedMessage("Please enter a guest name and email before submitting.");
+      return;
+    }
+
+    const trimmedName = guestName.trim();
+    const trimmedEmail = email.trim();
+
+    // action after validation: CREATE via repository
+    const newRsvp = rsvpRepository.create(trimmedName, trimmedEmail, status);
+
+    // refresh UI from repository
+    setRsvps(rsvpRepository.getAll());
+    setSharedMessage(`Last RSVP added: ${newRsvp.guestName} (${newRsvp.status})`);
+
+    resetForm();
   }
 
   function removeRsvp(id: string) {
-    setRsvps((prev) => prev.filter((r) => r.id !== id)); // immediate UI update
+    // DELETE via repository
+    rsvpRepository.delete(id);
+
+    // refresh UI from repository
+    setRsvps(rsvpRepository.getAll());
     setSharedMessage("RSVP removed");
   }
 
@@ -51,7 +75,8 @@ function RsvpPage({ sharedMessage, setSharedMessage }: RsvpPageProps) {
           setEmail={setEmail}
           status={status}
           setStatus={setStatus}
-          onAdd={addRsvp}
+          resetForm={resetForm}
+          onAdd={handleAddFromForm}
         />
 
         <section className="card">
