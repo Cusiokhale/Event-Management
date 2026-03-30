@@ -6,20 +6,17 @@ datasource db {
   provider = "postgresql"
 }
 
-model Event {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  date        DateTime
-  location    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Service {
+  id         Int      @id @default(autoincrement())
+  name       String
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
-model Service {
-  id        Int      @id @default(autoincrement())
-  name      String
-  category  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  services Service[]
 }
