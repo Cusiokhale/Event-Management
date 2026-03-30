@@ -1,6 +1,7 @@
 export type ServiceItem = {
-  id: string;
+  id: number;
   name: string;
   category: string;
   createdAt: string;
+  updatedAt: string;
 };
