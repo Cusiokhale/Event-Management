@@ -3,7 +3,7 @@ import {
   createService,
   deleteServiceById,
   getAllServices,
-} from "./../services/serviceService.js";
+} from "../services/serviceService.js";
 
 export const fetchServices = async (_req: Request, res: Response) => {
   try {
