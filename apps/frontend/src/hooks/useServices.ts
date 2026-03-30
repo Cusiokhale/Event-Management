@@ -5,23 +5,24 @@ import { serviceService } from "../services/serviceService";
 export function useServices() {
   const [services, setServices] = useState<ServiceItem[]>([]);
 
-  function refresh() {
-    setServices(serviceService.getAll());
+  async function refresh() {
+    const data = await serviceService.getAll();
+    setServices(data);
   }
 
   useEffect(() => {
     refresh();
   }, []);
 
-  function addService(name: string, category: string) {
-    const created = serviceService.add(name, category);
+  async function addService(name: string, category: string) {
+    const created = await serviceService.add(name, category);
     if (!created) return;
-    refresh();
+    await refresh();
   }
 
-  function removeService(id: string) {
-    serviceService.remove(id);
-    refresh();
+  async function removeService(id: number) {
+    await serviceService.remove(id);
+    await refresh();
   }
 
   return { services, addService, removeService };

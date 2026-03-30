@@ -4,19 +4,9 @@ import { useServices } from "../../hooks/useServices";
 
 function ServicesPage() {
   const { sharedMessage, setSharedMessage } = useSharedMessage();
-
-  /**
-   * I.3 Architecture Use (Hook → Service → Repository)
-   * - This component uses the custom hook `useServices()`.
-   * - The hook calls `serviceService` methods (validation + business rules).
-   * - The service calls `serviceRepository` CRUD methods (data access).
-   * Why: Keeps UI focused on rendering, centralizes validation/business logic,
-   * and prepares the app for backend integration in later modules.
-   */
   const { services, addService, removeService } = useServices();
 
-  function handleAddService(name: string, category: string) {
-    // Validate first (your preference)
+  async function handleAddService(name: string, category: string) {
     const trimmedName = name.trim();
     const trimmedCategory = category.trim();
 
@@ -25,13 +15,12 @@ function ServicesPage() {
       return;
     }
 
-    // Act after validation (through hook → service → repository)
-    addService(trimmedName, trimmedCategory);
+    await addService(trimmedName, trimmedCategory);
     setSharedMessage(`Last added service: ${trimmedName}`);
   }
 
-  function handleRemoveService(id: string) {
-    removeService(id);
+  async function handleRemoveService(id: number) {
+    await removeService(id);
     setSharedMessage("Service removed.");
   }
 
