@@ -2,12 +2,11 @@ import type { ServiceItem } from "../types/service";
 import { serviceRepository } from "../repositories/serviceRepository";
 
 export const serviceService = {
-  getAll(): ServiceItem[] {
-    return serviceRepository.getAll();
+  async getAll(): Promise<ServiceItem[]> {
+    return await serviceRepository.getAll();
   },
 
-  add(name: string, category: string): ServiceItem | null {
-    // validate first
+  async add(name: string, category: string): Promise<ServiceItem | null> {
     const trimmedName = name.trim();
     const trimmedCategory = category.trim();
 
@@ -15,14 +14,16 @@ export const serviceService = {
       return null;
     }
 
-    // act after validation
-    return serviceRepository.create(trimmedName, trimmedCategory);
+    return await serviceRepository.create(trimmedName, trimmedCategory);
   },
 
-  remove(id: string): void {
+  async remove(id: string): Promise<void> {
     const trimmedId = id.trim();
-    if (trimmedId.length === 0) return;
 
-    serviceRepository.delete(trimmedId);
+    if (trimmedId.length === 0) {
+      return;
+    }
+
+    await serviceRepository.delete(trimmedId);
   },
 };
