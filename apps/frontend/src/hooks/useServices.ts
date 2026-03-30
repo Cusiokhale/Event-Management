@@ -6,8 +6,8 @@ export function useServices() {
   const [services, setServices] = useState<ServiceItem[]>([]);
 
   async function refresh() {
-    const allServices = await serviceService.getAll();
-    setServices(allServices);
+    const data = await serviceService.getAll();
+    setServices(data);
   }
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export function useServices() {
     await refresh();
   }
 
-  async function removeService(id: string) {
+  async function removeService(id: number) {
     await serviceService.remove(id);
     await refresh();
   }

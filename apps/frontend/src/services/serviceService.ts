@@ -1,29 +1,51 @@
 import type { ServiceItem } from "../types/service";
-import { serviceRepository } from "../repositories/serviceRepository";
+
+const BASE_URL = "http://localhost:3000/api/v1/services";
 
 export const serviceService = {
   async getAll(): Promise<ServiceItem[]> {
-    return await serviceRepository.getAll();
+    const response = await fetch(BASE_URL);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch services");
+    }
+
+    return response.json();
   },
 
   async add(name: string, category: string): Promise<ServiceItem | null> {
     const trimmedName = name.trim();
     const trimmedCategory = category.trim();
 
-    if (trimmedName.length === 0 || trimmedCategory.length === 0) {
+    if (!trimmedName || !trimmedCategory) {
       return null;
     }
 
-    return await serviceRepository.create(trimmedName, trimmedCategory);
-  },
+    const response = await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: trimmedName,
+        category: trimmedCategory,
+      }),
+    });
 
-  async remove(id: string): Promise<void> {
-    const trimmedId = id.trim();
-
-    if (trimmedId.length === 0) {
-      return;
+    if (!response.ok) {
+      throw new Error("Failed to create service");
     }
 
-    await serviceRepository.delete(trimmedId);
+    return response.json();
+  },
+
+  async remove(id: number): Promise<void> {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete service");
+    }
   },
 };
