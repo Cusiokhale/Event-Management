@@ -1,47 +1,41 @@
 import type { ServiceItem } from "../types/service";
-import { serviceTestData } from "../data/serviceTestData";
 
-// Initialize repository data from external test data source
-let services: ServiceItem[] = [...serviceTestData];
+const API_BASE_URL = "http://localhost:3000/api/v1/services";
 
 export const serviceRepository = {
-  // READ (all)
-  getAll(): ServiceItem[] {
-    return [...services];
+  async getAll(): Promise<ServiceItem[]> {
+    const res = await fetch(API_BASE_URL);
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch services");
+    }
+
+    return res.json();
   },
 
-  // READ (one)
-  getById(id: string): ServiceItem | undefined {
-    return services.find((s) => s.id === id);
+  async create(name: string, category: string): Promise<ServiceItem> {
+    const res = await fetch(API_BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, category }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to create service");
+    }
+
+    return res.json();
   },
 
-  // CREATE
-  create(name: string, category: string): ServiceItem {
-    const newService: ServiceItem = {
-      id: crypto.randomUUID(),
-      name,
-      category,
-      createdAt: new Date().toISOString(),
-    };
+  async delete(id: string): Promise<void> {
+    const res = await fetch(`${API_BASE_URL}/${id}`, {
+      method: "DELETE",
+    });
 
-    services = [newService, ...services];
-    return newService;
-  },
-
-  // UPDATE
-  update(
-    id: string,
-    updated: Partial<ServiceItem>
-  ): ServiceItem | undefined {
-    services = services.map((s) =>
-      s.id === id ? { ...s, ...updated } : s
-    );
-
-    return services.find((s) => s.id === id);
-  },
-
-  // DELETE
-  delete(id: string): void {
-    services = services.filter((s) => s.id !== id);
+    if (!res.ok) {
+      throw new Error("Failed to delete service");
+    }
   },
 };
