@@ -1,11 +1,15 @@
-import prisma from "../../../prisma.js";
+type RsvpItem = {
+  id: string;
+  guestName: string;
+  email: string;
+  status: string;
+  createdAt: string;
+};
+
+let rsvps: RsvpItem[] = [];
 
 export const getAllRsvps = async () => {
-  return prisma.rsvp.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  return [...rsvps];
 };
 
 export const createRsvp = async (
@@ -13,19 +17,18 @@ export const createRsvp = async (
   email: string,
   status: string,
 ) => {
-  return prisma.rsvp.create({
-    data: {
-      guestName,
-      email,
-      status,
-    },
-  });
+  const newRsvp: RsvpItem = {
+    id: crypto.randomUUID(),
+    guestName,
+    email,
+    status,
+    createdAt: new Date().toISOString(),
+  };
+
+  rsvps = [newRsvp, ...rsvps];
+  return newRsvp;
 };
 
 export const deleteRsvpById = async (id: string) => {
-  return prisma.rsvp.delete({
-    where: {
-      id,
-    },
-  });
+  rsvps = rsvps.filter((rsvp) => rsvp.id !== id);
 };
