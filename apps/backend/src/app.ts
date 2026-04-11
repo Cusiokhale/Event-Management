@@ -1,5 +1,6 @@
 import cors from "cors";
-import express, { Express } from "express";
+import express, { type Express } from "express";
+import { clerkMiddleware } from "@clerk/express";
 import serviceRoutes from "./api/v1/routes/serviceRoutes.js";
 import rsvpRoutes from "./api/v1/routes/rsvpRoutes.js";
 
@@ -10,8 +11,11 @@ app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:5173",
+    credentials: true,
   }),
 );
+
+app.use(clerkMiddleware());
 
 app.get("/", (_req, res) => {
   res.send("Backend is running");
