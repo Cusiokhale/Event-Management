@@ -4,14 +4,13 @@ import type { Request, Response, NextFunction } from "express";
 export function requireClerkAuth(
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) {
-  const auth = getAuth(req);
+  const { userId } = getAuth(req);
 
-  if (!auth.userId) {
+  if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  req.auth = auth;
   next();
 }

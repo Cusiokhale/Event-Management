@@ -3,8 +3,12 @@ import type { ServiceItem } from "../types/service";
 const BASE_URL = "http://localhost:3000/api/v1/services";
 
 export const serviceService = {
-  async getAll(): Promise<ServiceItem[]> {
-    const response = await fetch(BASE_URL);
+  async getAll(token: string): Promise<ServiceItem[]> {
+    const response = await fetch(BASE_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Failed to fetch services");
@@ -13,7 +17,11 @@ export const serviceService = {
     return response.json();
   },
 
-  async add(name: string, category: string): Promise<ServiceItem | null> {
+  async add(
+    token: string,
+    name: string,
+    category: string
+  ): Promise<ServiceItem | null> {
     const trimmedName = name.trim();
     const trimmedCategory = category.trim();
 
@@ -25,6 +33,7 @@ export const serviceService = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name: trimmedName,
@@ -39,9 +48,12 @@ export const serviceService = {
     return response.json();
   },
 
-  async remove(id: number): Promise<void> {
+  async remove(token: string, id: number): Promise<void> {
     const response = await fetch(`${BASE_URL}/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (!response.ok) {

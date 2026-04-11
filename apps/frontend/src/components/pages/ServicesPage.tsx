@@ -49,7 +49,7 @@ function ServicesPage() {
                 <li className="list__item" key={service.id}>
                   <div className="list__text">
                     <strong>{service.name}</strong>
-                    <span className="muted"> — {service.category}</span>
+                    <span className="muted"> — {service.category.name}</span>
                   </div>
 
                   <button

@@ -27,24 +27,25 @@ export const getAllServices = async (clerkId: string) => {
 export const createService = async (
   clerkId: string,
   name: string,
-  category: string
+  categoryName: string
 ) => {
   const user = await getOrCreateUser(clerkId);
+
+  const category = await prisma.category.upsert({
+    where: {
+      name: categoryName,
+    },
+    update: {},
+    create: {
+      name: categoryName,
+    },
+  });
 
   return prisma.service.create({
     data: {
       name,
       userId: user.id,
-      category: {
-        connectOrCreate: {
-          where: {
-            name: category,
-          },
-          create: {
-            name: category,
-          },
-        },
-      },
+      categoryId: category.id,
     },
     include: {
       category: true,
