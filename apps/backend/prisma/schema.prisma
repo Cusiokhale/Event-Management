@@ -6,19 +6,27 @@ datasource db {
   provider = "postgresql"
 }
 
-model Service {
-  id         Int      @id @default(autoincrement())
-  name       String
-  categoryId Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model User {
+  id        Int       @id @default(autoincrement())
+  clerkId   String    @unique
+  services  Service[]
+  createdAt DateTime  @default(now())
 }
 
 model Category {
   id       Int       @id @default(autoincrement())
   name     String    @unique
   services Service[]
+}
+
+model Service {
+  id         Int       @id @default(autoincrement())
+  name       String
+  categoryId Int
+  category   Category  @relation(fields: [categoryId], references: [id])
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
+  createdAt  DateTime  @default(now())
 }
 
 model Rsvp {
