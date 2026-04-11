@@ -67,3 +67,16 @@ This structure separates:
 
 This design improves maintainability and makes backend integration easier in future modules.
 
+## Team Setup Progress
+
+### T.1: Clerk Authentication Setup
+- Integrated Clerk for user authentication
+- Enabled email-based login
+- Implemented sign in and sign out functionality
+- Secured frontend and backend routes using Clerk
+
+### T.2: Vercel Deployment Setup
+- Deployed frontend and backend applications using Vercel
+- Connected both projects to the GitHub repository
+- Configured automatic deployments from the `main` branch
+- Ensured consistent behavior between local and production environments
