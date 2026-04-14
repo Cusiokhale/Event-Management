@@ -7,6 +7,12 @@ type BuildRsvpInput = {
   status: RsvpStatus;
 };
 
+let currentId = 1;
+
+function generateId(): number {
+  return currentId++;
+}
+
 export function isRsvpInputValid(
   guestName: string,
   email: string
@@ -22,11 +28,12 @@ export function buildRsvpItem(input: BuildRsvpInput): RsvpItem {
   }
 
   return {
-    id: crypto.randomUUID(),
+    id: generateId(),
     guestName: input.guestName.trim(),
     email: input.email.trim(),
     status: input.status,
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 }
 
@@ -44,7 +51,6 @@ export const rsvpService = {
       return null;
     }
 
-    // repository handles persistence
     return rsvpRepository.create(
       input.guestName.trim(),
       input.email.trim(),
@@ -52,8 +58,8 @@ export const rsvpService = {
     );
   },
 
-  remove(id: string): void {
-    if (!id.trim()) return;
+  remove(id: number): void {
+    if (id <= 0) return;
     rsvpRepository.delete(id);
   },
 };
