@@ -13,6 +13,7 @@ export function normalizeEmail(value: string): string {
 export function isRsvpInputValid(guestName: string, email: string): boolean {
   const name = normalizeName(guestName);
   const mail = normalizeEmail(email);
+
   return name.length > 0 && mail.length > 0 && mail.includes("@");
 }
 
