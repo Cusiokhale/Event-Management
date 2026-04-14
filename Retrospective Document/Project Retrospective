@@ -1,0 +1,83 @@
+# Project Retrospective Document
+
+## What went well?
+
+During this final phase of the project, I successfully implemented authentication and user-associated data management for the Services feature.
+
+Building on the layered architecture (Hook → Service → Repository) from previous sprints, I extended the system to support full-stack integration:
+
+- Connected the frontend to the backend API endpoints
+- Integrated Clerk authentication for session management
+- Ensured each service is associated with a specific logged-in user using Prisma
+
+This allowed users to:
+
+- Add services tied to their account.
+- Remove services dynamically
+- Retrieve only their own data from the database.
+
+The integration between frontend, backend, and database worked effectively after resolving initial issues, resulting in a fully functional feature.
+
+I also improved my workflow by:
+
+- Creating feature branches for each task
+- Using consistent commits
+- Creating pull requests for review
+
+This helped maintain a clean and trackable development process.
+
+## What challenges did I face?
+
+One major challenge was debugging issues between the frontend and backend.
+
+For example, services were successfully saved in the database but were not displayed on the frontend. This was caused by a mismatch in data structures: the backend returned the category as an object, while the frontend expected a string. Identifying and fixing this required tracing data across multiple layers.
+
+Another challenge was handling authentication and session tokens. Ensuring that the Clerk token was correctly included in requests and properly handled in the backend required careful debugging.
+
+I also encountered Git workflow issues, including:
+
+- Push rejections due to branches being behind the remote
+- Merge conflicts during synchronization.
+- Difficulty creating and tracking branches correctly
+
+These issues slowed progress and required additional troubleshooting.
+
+## What I learned and will improve?
+
+From this project, I gained a stronger understanding of full-stack development, especially how frontend, backend, and database layers interact.
+
+I learned the importance of:
+
+- Maintaining consistent data structures across all layers
+- Properly handling authentication and session tokens.
+- Debugging data flow step-by-step instead of guessing
+
+In future projects, I will:
+
+1. Maintain strict data consistency.
+
+- Ensure frontend and backend data structures match.
+
+- Validate API responses early.
+  
+2. Improve the debugging approach.
+
+- Check data flow from backend to frontend systematically.
+  
+- Use console logs and testing more effectively.
+  
+3. Strengthen Git workflow
+
+- Always pull before starting work.
+  
+- Keep branches updated
+  
+- Resolve conflicts immediately
+  
+4. Improve testing practices
+
+- Test features immediately after implementation
+  
+- Validate both frontend and backend behavior.
+
+Overall, this project helped me build confidence in implementing secure, user-based features in a full-stack application, and I will apply these lessons in future development work.

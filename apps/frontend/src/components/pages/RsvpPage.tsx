@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import RsvpForm from "../rsvp/RsvpForm";
-import type { RsvpItem } from "../../types/rsvp";
 import { useRsvpFormFields } from "../../hooks/useRsvpFormFields";
-import { isRsvpInputValid } from "../services/rsvpService";
+import { isRsvpInputValid } from "../../services/rsvpService";
 import { useSharedMessage } from "../../hooks/useSharedMessage";
-import { rsvpRepository } from "../../repositories/rsvpRepository";
+import { useRsvps } from "../../hooks/useRsvps";
 
 function RsvpPage() {
   const { sharedMessage, setSharedMessage } = useSharedMessage();
+  const { rsvps, addRsvp, removeRsvp } = useRsvps();
 
   const {
     guestName,
@@ -19,19 +19,18 @@ function RsvpPage() {
     resetForm,
   } = useRsvpFormFields();
 
-  // Initialize list from repository test data
-  const [rsvps, setRsvps] = useState<RsvpItem[]>(() => rsvpRepository.getAll());
-
   useEffect(() => {
     const name = guestName.trim();
     const mail = email.trim();
+
     if (!name && !mail) return;
 
-    setSharedMessage(`Typing RSVP: ${name || "..."} (${status}) — ${mail || "..."}`);
+    setSharedMessage(
+      `Typing RSVP: ${name || "..."} (${status}) — ${mail || "..."}`
+    );
   }, [guestName, email, status, setSharedMessage]);
 
-  function handleAddFromForm() {
-    // validate first
+  async function handleAddFromForm() {
     if (!isRsvpInputValid(guestName, email)) {
       setSharedMessage("Please enter a guest name and email before submitting.");
       return;
@@ -40,23 +39,24 @@ function RsvpPage() {
     const trimmedName = guestName.trim();
     const trimmedEmail = email.trim();
 
-    // action after validation: CREATE via repository
-    const newRsvp = rsvpRepository.create(trimmedName, trimmedEmail, status);
-
-    // refresh UI from repository
-    setRsvps(rsvpRepository.getAll());
-    setSharedMessage(`Last RSVP added: ${newRsvp.guestName} (${newRsvp.status})`);
-
-    resetForm();
+    try {
+      await addRsvp(trimmedName, trimmedEmail, status);
+      setSharedMessage(`Last RSVP added: ${trimmedName} (${status})`);
+      resetForm();
+    } catch (error) {
+      console.error("Failed to add RSVP:", error);
+      setSharedMessage("Failed to add RSVP.");
+    }
   }
 
-  function removeRsvp(id: string) {
-    // DELETE via repository
-    rsvpRepository.delete(id);
-
-    // refresh UI from repository
-    setRsvps(rsvpRepository.getAll());
-    setSharedMessage("RSVP removed");
+  async function handleRemoveRsvp(id: number) {
+    try {
+      await removeRsvp(id);
+      setSharedMessage("RSVP removed");
+    } catch (error) {
+      console.error("Failed to remove RSVP:", error);
+      setSharedMessage("Failed to remove RSVP.");
+    }
   }
 
   return (
@@ -96,7 +96,7 @@ function RsvpPage() {
                   <button
                     type="button"
                     className="btn btn--danger"
-                    onClick={() => removeRsvp(r.id)}
+                    onClick={() => handleRemoveRsvp(r.id)}
                   >
                     Remove
                   </button>

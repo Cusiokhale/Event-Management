@@ -1,34 +1,51 @@
-type RsvpItem = {
-  id: string;
-  guestName: string;
-  email: string;
-  status: string;
-  createdAt: string;
-};
+import prisma from "../../../prisma.js";
 
-let rsvps: RsvpItem[] = [];
+async function getOrCreateUser(clerkId: string) {
+  return prisma.user.upsert({
+    where: { clerkId },
+    update: {},
+    create: { clerkId },
+  });
+}
 
-export const getAllRsvps = async () => {
-  return [...rsvps];
+export const getAllRsvps = async (clerkId: string) => {
+  const user = await getOrCreateUser(clerkId);
+
+  return prisma.rsvp.findMany({
+    where: {
+      userId: user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 };
 
 export const createRsvp = async (
+  clerkId: string,
   guestName: string,
   email: string,
-  status: string,
+  status: string
 ) => {
-  const newRsvp: RsvpItem = {
-    id: crypto.randomUUID(),
-    guestName,
-    email,
-    status,
-    createdAt: new Date().toISOString(),
-  };
+  const user = await getOrCreateUser(clerkId);
 
-  rsvps = [newRsvp, ...rsvps];
-  return newRsvp;
+  return prisma.rsvp.create({
+    data: {
+      guestName,
+      email,
+      status,
+      userId: user.id,
+    },
+  });
 };
 
-export const deleteRsvpById = async (id: string) => {
-  rsvps = rsvps.filter((rsvp) => rsvp.id !== id);
+export const deleteRsvpById = async (clerkId: string, id: number) => {
+  const user = await getOrCreateUser(clerkId);
+
+  return prisma.rsvp.deleteMany({
+    where: {
+      id,
+      userId: user.id,
+    },
+  });
 };
