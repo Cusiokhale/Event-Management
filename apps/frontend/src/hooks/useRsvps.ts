@@ -1,55 +1,58 @@
+import { useEffect, useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 import type { RsvpItem, RsvpStatus } from "../types/rsvp";
-import { rsvpRepository } from "../repositories/rsvpRepository";
+import { rsvpService } from "../services/rsvpService";
 
-type BuildRsvpInput = {
-  guestName: string;
-  email: string;
-  status: RsvpStatus;
-};
+export function useRsvps() {
+  const [rsvps, setRsvps] = useState<RsvpItem[]>([]);
+  const { getToken, isSignedIn } = useAuth();
 
-export function isRsvpInputValid(
-  guestName: string,
-  email: string
-): boolean {
-  return guestName.trim().length > 0 && email.trim().length > 0;
-}
-
-export function buildRsvpItem(input: BuildRsvpInput): RsvpItem {
-  if (!isRsvpInputValid(input.guestName, input.email)) {
-    throw new Error("Invalid RSVP input.");
-  }
-
-  return {
-    id: crypto.randomUUID(),
-    guestName: input.guestName.trim(),
-    email: input.email.trim(),
-    status: input.status,
-    createdAt: new Date().toISOString(),
-  };
-}
-
-/**
- * I.3 Service Layer (Repository Integration)
- */
-export const rsvpService = {
-  getAll(): RsvpItem[] {
-    return rsvpRepository.getAll();
-  },
-
-  add(input: BuildRsvpInput): RsvpItem | null {
-    if (!isRsvpInputValid(input.guestName, input.email)) {
-      return null;
+  async function refresh() {
+    if (!isSignedIn) {
+      setRsvps([]);
+      return;
     }
 
-    return rsvpRepository.create(
-      input.guestName.trim(),
-      input.email.trim(),
-      input.status
-    );
-  },
+    const token = await getToken();
 
-  remove(id: string): void {
-    if (!id.trim()) return;
-    rsvpRepository.delete(id);
-  },
-};
+    if (!token) {
+      setRsvps([]);
+      return;
+    }
+
+    const data = await rsvpService.getAll(token);
+    setRsvps(data);
+  }
+
+  useEffect(() => {
+    refresh();
+  }, [isSignedIn]);
+
+  async function addRsvp(
+    guestName: string,
+    email: string,
+    status: RsvpStatus
+  ) {
+    if (!isSignedIn) return;
+
+    const token = await getToken();
+    if (!token) return;
+
+    const created = await rsvpService.add(token, guestName, email, status);
+    if (!created) return;
+
+    await refresh();
+  }
+
+  async function removeRsvp(id: number) {
+    if (!isSignedIn) return;
+
+    const token = await getToken();
+    if (!token) return;
+
+    await rsvpService.remove(token, id);
+    await refresh();
+  }
+
+  return { rsvps, addRsvp, removeRsvp };
+}

@@ -4,16 +4,12 @@ import { isRsvpInputValid } from "../../services/rsvpService";
 type Props = {
   guestName: string;
   setGuestName: (v: string) => void;
-
   email: string;
   setEmail: (v: string) => void;
-
   status: RsvpStatus;
   setStatus: (v: RsvpStatus) => void;
-
   resetForm: () => void;
-
-  onAdd: () => void;
+  onAdd: () => Promise<void>;
 };
 
 export default function RsvpForm({
@@ -23,17 +19,14 @@ export default function RsvpForm({
   setEmail,
   status,
   setStatus,
-  resetForm,
   onAdd,
 }: Props) {
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // Service validation (business logic)
     if (!isRsvpInputValid(guestName, email)) return;
 
-    onAdd();
-    resetForm();
+    await onAdd();
   }
 
   return (

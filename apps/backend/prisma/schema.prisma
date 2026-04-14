@@ -37,9 +37,8 @@ model Category {
 
 model Rsvp {
   id        Int      @id @default(autoincrement())
-  name      String
+  guestName String
   email     String
-  event     String
   status    String
   userId    Int
 
