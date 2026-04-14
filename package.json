@@ -4,5 +4,8 @@
   "workspaces": [
     "apps/frontend",
     "apps/backend"
-  ]
+  ],
+  "dependencies": {
+    "@clerk/clerk-react": "^5.61.4"
+  }
 }
