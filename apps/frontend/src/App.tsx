@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { SignedIn, SignedOut, SignIn } from "@clerk/clerk-react";
+import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import "./App.css";
 import Layout from "./components/layout/Layout";
 import EventsPage from "./components/pages/EventsPage";
@@ -17,7 +17,6 @@ function App() {
         <Route path="events" element={<EventsPage />} />
         <Route path="rsvp" element={<RsvpPage />} />
 
-        {/* 🔒 PROTECTED ROUTE */}
         <Route
           path="services"
           element={
@@ -27,7 +26,10 @@ function App() {
               </SignedIn>
 
               <SignedOut>
-                <SignIn />
+                <div style={{ padding: "2rem", textAlign: "center" }}>
+                  <h2>Please sign in to view your services</h2>
+                  <p>You need an account to access this page.</p>
+                </div>
               </SignedOut>
             </>
           }

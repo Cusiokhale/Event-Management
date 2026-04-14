@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import {
   SignInButton,
+  SignOutButton,
+  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
@@ -28,17 +30,31 @@ function Nav() {
           <NavLink to="/rsvp">RSVP</NavLink>
         </li>
 
-        <li>
-          <SignedOut>
+        <SignedOut>
+          <li>
             <SignInButton mode="modal">
               <button type="button">Sign In</button>
             </SignInButton>
-          </SignedOut>
+          </li>
 
-          <SignedIn>
+          <li>
+            <SignUpButton mode="modal">
+              <button type="button">Sign Up</button>
+            </SignUpButton>
+          </li>
+        </SignedOut>
+
+        <SignedIn>
+          <li>
             <UserButton />
-          </SignedIn>
-        </li>
+          </li>
+
+          <li>
+            <SignOutButton>
+              <button type="button">Sign Out</button>
+            </SignOutButton>
+          </li>
+        </SignedIn>
       </ul>
     </nav>
   );

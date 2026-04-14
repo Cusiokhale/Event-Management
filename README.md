@@ -80,3 +80,86 @@ This design improves maintainability and makes backend integration easier in fut
 - Connected both projects to the GitHub repository
 - Configured automatic deployments from the `main` branch
 - Ensured consistent behavior between local and production environments
+
+
+## Local Setup
+This project is a full-stack application with a React frontend, Node/Express backend, Clerk authentication, Prisma ORM, and a PostgreSQL database.
+Follow the steps below to run the project locally.
+
+### Prerequisites
+Make sure you have the following installed:
+- Node.js
+- npm
+- PostgreSQL
+- Git
+
+### 1. Clone the Repository
+
+bash
+git clone https://github.com/Cusiokhale/Event-Management.git
+cd <your project folder>
+
+### 2. Install Dependencies
+Install dependencies for both frontend and backend.
+
+#### Frontend
+cd frontend
+npm install
+
+#### Backend
+cd backend
+npm install
+
+### 3. Environment Variables
+You must create .env files for both frontend and backend.
+
+#### Frontend .env
+Create a .env file in the frontend folder:
+
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_aGFybWxlc3MtZmluY2gtNzcuY2xlcmsuYWNjb3VudHMuZGV2JA
+VITE_API_BASE_URL=http://localhost:3000
+
+#### Backend .env
+Create a .env file in the backend folder:
+
+DATABASE_URL=postgresql://postgres:postgres@localhost:5433/event_management
+CLERK_PUBLISHABLE_KEY=pk_test_aGFybWxlc3MtZmluY2gtNzcuY2xlcmsuYWNjb3VudHMuZGV2JA
+CLERK_SECRET_KEY=sk_test_1WRSG5hjzaD4dPsFXju1ZMrhRWqM4x4wljVcRRrCF3
+PORT=3000
+
+### 4. Database Setup (Prisma)
+From the backend folder, run:
+
+npx prisma migrate dev
+npx prisma generate
+
+This will:
+- Create database tables
+- Sync schema
+- Generate Prisma client
+
+### 5. Run the Backend
+cd backend
+npm run dev
+
+Backend runs on:
+http://localhost:3000
+
+### 6. Run the Frontend
+cd frontend
+npm run dev
+
+Frontend runs on:
+http://localhost:5173
+
+### 7. Using the Application
+- Open the frontend in your browser
+- Sign up or log in using Clerk
+- Add and remove services
+- Data is stored per authenticated user
+
+### Notes
+- Ensure PostgreSQL is running before starting the backend
+- Ensure your Clerk keys are valid
+- Run Prisma migrations again if schema changes
+- If something breaks, run npm install again
