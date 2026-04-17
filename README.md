@@ -114,7 +114,7 @@ npm install
 You must create .env files for both frontend and backend.
 
 #### Frontend .env
-Create a .env file in the frontend folder:
+Create a .env file in the frontend folder
 
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_aGFybWxlc3MtZmluY2gtNzcuY2xlcmsuYWNjb3VudHMuZGV2JA
 VITE_API_BASE_URL=http://localhost:3000
@@ -124,7 +124,6 @@ Create a .env file in the backend folder:
 
 DATABASE_URL=postgresql://postgres:postgres@localhost:5433/event_management
 CLERK_PUBLISHABLE_KEY=pk_test_aGFybWxlc3MtZmluY2gtNzcuY2xlcmsuYWNjb3VudHMuZGV2JA
-CLERK_SECRET_KEY=sk_test_1WRSG5hjzaD4dPsFXju1ZMrhRWqM4x4wljVcRRrCF3
 PORT=3000
 
 ### 4. Database Setup (Prisma)
